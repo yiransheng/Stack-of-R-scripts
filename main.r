@@ -590,7 +590,8 @@ ecm <- function( v1, v2, takelog=TRUE, lag=1 ){
         pv2 <- coef(summary(model2))[2,4]
         print(summary(model1))
         print(summary(model2))
-        coint <- list(pvalue1=pv1, pvalue2=pv2)
+        coint <- c(pv1, pv2)
+        names(coint) <- c("p-value.1","p-value.2")
 
 	return(coint)
 }

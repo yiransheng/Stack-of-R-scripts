@@ -2,7 +2,7 @@
 
 library("Hmisc")
 library("tseries")
-8413877
+
 ## Global Variables
 date_start <- '2011-01-01'
 date_end <- format(Sys.time(), "%Y-%m-%d")
@@ -11,37 +11,16 @@ subperiods <- c('2011-10-01','2012-01-13')
 
 subs <- function(k,s) {
     v <- index(s)
-    if (k > length(subperiods)){
-        a <- tail(subperiods,1)
-        beg <- which(v==a) 
-        if (!length(beg)) {
-            beg <- tail(which(v<a),1)
-        }  
-        end <- length(v)
-        return (v[beg:end])
-    }
-    b <- subperiods[k]
-    end <- which(v==b)
-    if (!length(end)) {
-        end <- tail(which(v<b),1)
-    }
-    
-    else if (k>1) {
-        a <- subperiods[k-1]
-        beg <- which(v==a) 
-        if (!length(beg)) {
-            beg <- tail(which(v<a),1)
-        }    
-    } else {
-        beg <- 1
-    }
-    print(end)
-    return (v[beg:end])
+    nodes <- c(v[1], as.Date(subperiods), tail(v,1))
+    b <- k+1
+    a <- k
+    v_cut <- v[(v<=nodes[b] & v>nodes[a])]
+    return (v_cut)
 }
 
 ## matches the time index of all returned symbols
 getsymbols <- function(syms, freq="d", quote="AdjClose") {
-    raw <- get.hist.quote(syms[1], start=datestart, end=dateend, compression=freq, quote=quote)
+    raw <- get.hist.quote(syms[1], start=date_start, end=date_end, compression=freq, quote=quote)
     dates <- index(raw)
     for (sym in syms[2:length(syms)]){
         tmp <- get.hist.quote(sym, start=date_start, end=date_end, compression=freq, quote="Close")
@@ -66,7 +45,7 @@ pair <- getsymbols(c("aapl","qcom"))
 sub1 <- pair[index(pair)%in%subs(1,pair)]
 sub2 <- pair[index(pair)%in%subs(2,pair)]
 sub3 <- pair[index(pair)%in%subs(3,pair)]
-sub23 <- rbind(sub2, sub3[-1])
+sub23 <- rbind(sub2, sub3)
 
 
 
@@ -94,3 +73,23 @@ fit1 <- lm(model1, data=ret1)
 fit2 <- lm(model1, data=ret2)
 fit3 <- lm(model1, data=ret3)
 fit4 <- lm(model1, data=rbind(ret2,ret3))
+
+
+ecmtable <- function(pair){
+    ret<-ecm(pair)
+
+    return (xtable(as.table(ret)))
+} 
+
+
+###
+
+pos <- rep(0, length(hr))
+for (i in 1:length(hr)){
+    if(!is.na(lar[i]) & lar[i]>=0.0111){
+        pos[i] = -1
+    } else if (!is.na(lar[i]) & lar[i]<=-0.0106){
+        pos[i] = 1
+    }
+}
+
