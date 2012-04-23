@@ -27,7 +27,7 @@ utils$is.nna <- function (x) !is.na(x)
 ### assign value only if the variable is undefined
 ### or NA or FALSE or NULL.  
 ### Example: 
-###   data <- data %||% read.csv("large.csv")
+###   data <- data %||% read.csv("largefile.csv")
 ################################################
 
 utils[["%||%"]] <- function(e1, e2, except=c(NA,F)) {
