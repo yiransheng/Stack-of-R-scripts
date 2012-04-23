@@ -21,6 +21,12 @@ utils$as.d <- as.data.frame
 utils$as.t <- as.table
 utils$is.nna <- function (x) !is.na(x)
 
+utils$doc <- function(package) {
+    .text <- deparse(substitute(package))
+    do.call(library, list(help=.text))
+}
+
+
 ################################################
 ### Custom "or" / "||" operator, 
 ### capable of checking if a variable is defined
@@ -114,6 +120,7 @@ utils$cleanse <- function(...){
 
     utils$clean.matrix(x)
 }
+
 
 if ("utils" %in% search()) detach("utils")
 
