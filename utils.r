@@ -22,6 +22,7 @@ utils$as.t <- as.table
 utils$is.nna <- function (x) !is.na(x)
 
 utils$doc <- function(package) {
+# use: doc(base), without quote
     .text <- deparse(substitute(package))
     do.call(library, list(help=.text))
 }
