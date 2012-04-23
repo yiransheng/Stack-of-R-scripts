@@ -47,7 +47,7 @@ utils[["%||%"]] <- function(e1, e2, except=c(NA,F)) {
 ### Miscs
 ################################################
 
-cache <- function(variable) {
+utils$cache <- function(variable) {
     if ( !("./cache" %in% list.dirs()) ) {
         dir.create("cache")
     }
@@ -56,7 +56,7 @@ cache <- function(variable) {
          file = file.path('cache',
          paste(variable, '.RData', sep = '')))
 }
-cache.get <- function(variable) {
+utils$cache.get <- function(variable) {
     filename = file.path('cache', 
 	       paste(variable, '.RData', sep = ''))
     load(filename, envir = .GlobalEnv)
