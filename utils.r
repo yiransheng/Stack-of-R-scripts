@@ -47,6 +47,21 @@ utils[["%||%"]] <- function(e1, e2, except=c(NA,F)) {
 ### Miscs
 ################################################
 
+cache <- function(variable) {
+    if ( !("./cache" %in% list.dirs()) ) {
+        dir.create("cache")
+    }
+    save(list = variable,
+         envir = .GlobalEnv,
+         file = file.path('cache',
+         paste(variable, '.RData', sep = '')))
+}
+cache.get <- function(variable) {
+    filename = file.path('cache', 
+	       paste(variable, '.RData', sep = ''))
+    load(filename, envir = .GlobalEnv)
+}
+
 utils$whichever <- function(indices, 
 	                    size=length(indices), 
 			    inverse = F) {
