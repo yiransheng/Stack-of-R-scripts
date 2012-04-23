@@ -3,7 +3,7 @@
 # Written by Yiran Sheng @ Chrysanthemumcapital.com
 ############################################################
 
-## Get Data
+## Get Data 
 fetch <- function( symb, ibeg=FALSE, iend=FALSE, makedataframe = FALSE ){
     o <- get.hist.quote(symb, quote='Open')
     c <- get.hist.quote(symb, quote='Close')
