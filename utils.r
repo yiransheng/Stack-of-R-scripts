@@ -27,7 +27,7 @@ utils$is.nna <- function (x) !is.na(x)
 ### assign value only if the variable is undefined
 ### or NA or FALSE or NULL.  
 ### Example: 
-###   data <- data %||% read.csv("alargefile.csv")
+###   data <- data %||% read.csv("large.csv")
 ################################################
 
 utils[["%||%"]] <- function(e1, e2, except=c(NA,F)) {
@@ -66,7 +66,7 @@ utils$clean.matrix <- function(x) {
 }
 
 utils$cleanse <- function(...){
-# formating data
+# Format data, returns a matrix
     args <- list(...)
     method = utils[["%||%"]](args$method, "trunctuate")
     Index = utils[["%||%"]](args$index, index)
