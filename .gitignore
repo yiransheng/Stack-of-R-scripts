@@ -6,3 +6,5 @@
 *.jpg
 *.csv
 *.sav
+*.txt
+*.Rhistory
